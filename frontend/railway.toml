@@ -1,0 +1,14 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+# VITE_API_URL is passed as a Docker build ARG so it's baked into the bundle
+# Set it in Railway's Variables tab:  VITE_API_URL = https://your-backend.up.railway.app/api
+[build.args]
+VITE_API_URL = ""
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 120
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
