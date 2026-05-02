@@ -18,6 +18,11 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("OK");
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody AuthDto.SignupRequest request) {
         try {
