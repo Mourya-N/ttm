@@ -32,5 +32,6 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-# Railway injects a PORT env var. Nginx must listen on it.
-CMD sed -i -e 's/listen 80;/listen '"$PORT"';/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+# Nginx will listen on port 80 as defined in nginx.conf
+# We have told Railway to expect port 80 in the settings
+CMD ["nginx", "-g", "daemon off;"]
