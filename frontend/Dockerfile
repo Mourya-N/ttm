@@ -21,17 +21,13 @@ RUN npm run build
 # ============================================================
 FROM nginx:1.25-alpine
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy custom nginx config as a template
+# Nginx's official image will automatically replace ${PORT} and move it to /etc/nginx/conf.d/
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
 # Copy built static files
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# We don't need a special CMD anymore, the default entrypoint handles templates
 EXPOSE 80
-
-# Nginx will listen on port 80 as defined in nginx.conf
-# We have told Railway to expect port 80 in the settings
 CMD ["nginx", "-g", "daemon off;"]
